@@ -1,9 +1,9 @@
-import 'package:code_cards/widgets/code_card_main.dart';
+import 'package:code_cards/model/code_card.dart';
 import 'package:flutter/material.dart';
 
 class BackCard extends StatelessWidget {
-  final String codeQuestion;
-  const BackCard({Key key, this.codeQuestion}) : super(key: key);
+  final CodeCard card;
+  const BackCard({Key key, this.card}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -46,7 +46,7 @@ class BackCard extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                codeQuestion,
+                card.answer,
                 style: TextStyle(fontSize: 24),
               ),
               const Spacer(),

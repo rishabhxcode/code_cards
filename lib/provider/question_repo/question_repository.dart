@@ -1,4 +1,4 @@
-import 'package:code_cards/model/question.dart';
+import 'package:code_cards/model/code_card.dart';
 
 class QuestionRepo {
   CodeCard getQuestion() {

@@ -1,4 +1,4 @@
-import 'package:code_cards/model/question.dart';
+import 'package:code_cards/model/code_card.dart';
 import 'package:code_cards/provider/question_repo/question_repository.dart';
 import 'package:code_cards/widgets/back_card.dart';
 import 'package:code_cards/widgets/flip_widget.dart';
@@ -38,7 +38,9 @@ class _FullCardState extends State<FullCard>
           front: FrontCard(
             card: widget.card,
           ),
-          back: BackCard(codeQuestion: questionRepo.getQuestion().answer),
+          back: BackCard(
+            card: widget.card,
+          ),
         ),
         const SizedBox(
           height: 30,

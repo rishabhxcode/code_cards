@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:code_cards/helper/database_helper.dart';
-import 'package:code_cards/model/question.dart';
+import 'package:code_cards/model/code_card.dart';
 import 'package:equatable/equatable.dart';
 
 part 'random_10_cards_event.dart';

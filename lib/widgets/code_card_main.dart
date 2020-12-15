@@ -1,4 +1,4 @@
-import 'package:code_cards/model/question.dart';
+import 'package:code_cards/model/code_card.dart';
 import 'package:code_cards/widgets/full_card.dart';
 import 'package:flutter/material.dart';
 
