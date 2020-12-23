@@ -75,14 +75,13 @@ class DatabaseHelper {
     return _cards;
   }
 
-  Future<List<CodeCard>> get10RandomCards() async {
+  Future<List<CodeCard>> getRandomCards() async {
     final db = await database;
     List<CodeCard> _cards = [];
     var result = await db.query(
       tableName,
       orderBy: 'RANDOM()',
-      limit: 5,
-      
+      limit: 8,
     );
     result.forEach((element) {
       var _codeCard = CodeCard.fromJson(element);

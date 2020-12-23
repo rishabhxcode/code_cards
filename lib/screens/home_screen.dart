@@ -1,4 +1,4 @@
-import 'package:code_cards/bloc/random_10_cards/random_10_cards_bloc.dart';
+import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:code_cards/common/app_darwer.dart';
 import 'package:code_cards/helper/database_helper.dart';
 import 'package:code_cards/screens/new_card_screen.dart';
@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   DatabaseHelper helper = DatabaseHelper();
   @override
   void initState() {
-    BlocProvider.of<Random10CardsBloc>(context).add(Random10CardsLoadEvent());
+    BlocProvider.of<RandomCardsBloc>(context).add(RandomCardsLoadEvent());
     super.initState();
   }
 
@@ -54,14 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: Center(child: BlocBuilder<Random10CardsBloc, Random10CardsState>(
+      body: Center(child: BlocBuilder<RandomCardsBloc, RandomCardsState>(
           builder: (context, state) {
-        if (state is Random10CardsLoadedState) {
+        if (state is RandomCardsLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is RandomCardsLoadedState) {
           return CodeCardMain(
-            card: state.codeCards[0],
+            card: state.codeCard,
           );
         }
-        return Center(child: Text("Something Went Wrong!!"));
+        if (state is RandomCardsLoadFailedState) {
+          return Center(child: Text("Something Went Wrong!!"));
+        }
+        return Container();
       })),
     );
   }
