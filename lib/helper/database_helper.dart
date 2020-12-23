@@ -82,6 +82,7 @@ class DatabaseHelper {
       tableName,
       orderBy: 'RANDOM()',
       limit: 5,
+      
     );
     result.forEach((element) {
       var _codeCard = CodeCard.fromJson(element);

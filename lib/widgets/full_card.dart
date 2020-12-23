@@ -67,7 +67,9 @@ class _FullCardState extends State<FullCard>
             ),
             FlatButton(
               color: Colors.blue,
-              onPressed: () {},
+              onPressed: () {
+                
+              },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               child: Row(

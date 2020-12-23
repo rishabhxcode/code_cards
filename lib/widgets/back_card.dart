@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:code_cards/model/code_card.dart';
 import 'package:flutter/material.dart';
 
@@ -44,12 +45,24 @@ class BackCard extends StatelessWidget {
                   )
                 ],
               ),
-              const Spacer(),
-              Text(
-                card.answer,
-                style: TextStyle(fontSize: 24),
+              const SizedBox(
+                height: 20,
               ),
               const Spacer(),
+              Center(
+                child: AutoSizeText(
+                  card.answer,
+                  maxLines: 10,
+                  minFontSize: 18,
+                  maxFontSize: 24,
+                  style: TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const Spacer(),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           )),
     );

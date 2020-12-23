@@ -11,6 +11,7 @@ class GlobalBloc extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => Random10CardsBloc()),
+      
       ],
       child: child,
     );

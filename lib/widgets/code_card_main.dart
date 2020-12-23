@@ -1,4 +1,5 @@
 import 'package:code_cards/model/code_card.dart';
+import 'package:code_cards/widgets/card_switcher.dart';
 import 'package:code_cards/widgets/full_card.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class CodeCardMain extends StatelessWidget {
   const CodeCardMain({Key key, this.card}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return FullCard(
+    return CardSwitcher(
       card: card,
     );
   }
