@@ -5,12 +5,11 @@ class FlipWidget extends StatelessWidget {
   final Widget front;
   final Widget back;
   final AnimationController flipController;
-
   const FlipWidget({Key key, this.front, this.back, this.flipController});
-
   @override
   Widget build(BuildContext context) {
     return Transform(
+      key: key,
       origin: Offset(150, 0),
       transform: Matrix4.identity()
         ..setEntry(3, 2, 0.0008)

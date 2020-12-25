@@ -2,7 +2,7 @@ import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:code_cards/common/app_darwer.dart';
 import 'package:code_cards/helper/database_helper.dart';
 import 'package:code_cards/screens/new_card_screen.dart';
-import 'package:code_cards/widgets/code_card_main.dart';
+import 'package:code_cards/widgets/full_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(child: CircularProgressIndicator());
         }
         if (state is RandomCardsLoadedState) {
-          return CodeCardMain(
+          return FullCard(
             card: state.codeCard,
           );
         }

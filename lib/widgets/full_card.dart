@@ -1,12 +1,8 @@
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:code_cards/model/code_card.dart';
 import 'package:code_cards/provider/question_repo/question_repository.dart';
-import 'package:code_cards/widgets/back_card.dart';
-import 'package:code_cards/widgets/flip_widget.dart';
-import 'package:code_cards/widgets/front_card.dart';
+import 'package:code_cards/widgets/card_switcher.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FullCard extends StatefulWidget {
@@ -36,17 +32,9 @@ class _FullCardState extends State<FullCard>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        FlipWidget(
+        CardSwitcher(
+          card: widget.card,
           flipController: _flipController,
-          front: FrontCard(
-            card: widget.card,
-          ),
-          back: BackCard(
-            card: widget.card,
-          ),
-        ),
-        const SizedBox(
-          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +48,7 @@ class _FullCardState extends State<FullCard>
                       ? _flipController.forward()
                       : _flipController.reverse();
                 },
-                icon: Icon(Icons.swap_horiz_rounded, color: Colors.deepPurple),
+                icon: const Icon(Icons.swap_horiz_rounded, color: Colors.deepPurple),
                 label: Text(
                   'FLIP',
                   style: TextStyle(color: Colors.deepPurple),
@@ -71,6 +59,9 @@ class _FullCardState extends State<FullCard>
             FlatButton(
               color: Colors.blue,
               onPressed: () {
+                if (_flipController.isCompleted) {
+                  _flipController.reverse();
+                }
                 context.read<RandomCardsBloc>().add(LoadNextRandomCard());
               },
               shape: RoundedRectangleBorder(
