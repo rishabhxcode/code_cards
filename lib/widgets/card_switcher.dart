@@ -45,7 +45,7 @@ class CardSwitcher extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical:36),
+        padding: EdgeInsets.only(bottom: 36, top: 12),
         alignment: Alignment.center,
         key: ValueKey<int>(card.id),
         child: FlipWidget(

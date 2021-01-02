@@ -39,7 +39,7 @@ class FrontCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   Icon(
-                    Icons.star_border,
+                    Icons.star_border_rounded,
                     size: 30,
                     color: Colors.grey[500],
                   )

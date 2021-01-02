@@ -1,4 +1,5 @@
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
+import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/model/code_card.dart';
 import 'package:code_cards/provider/question_repo/question_repository.dart';
 import 'package:code_cards/widgets/card_switcher.dart';
@@ -42,22 +43,22 @@ class _FullCardState extends State<FullCard>
             OutlineButton.icon(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6)),
-                borderSide: BorderSide(color: Colors.deepPurple),
+                borderSide: BorderSide(color: mainColor),
                 onPressed: () {
                   _flipController.isDismissed
                       ? _flipController.forward()
                       : _flipController.reverse();
                 },
-                icon: const Icon(Icons.swap_horiz_rounded, color: Colors.deepPurple),
+                icon: const Icon(Icons.swap_horiz_rounded, color: mainColor),
                 label: Text(
                   'FLIP',
-                  style: TextStyle(color: Colors.deepPurple),
+                  style: TextStyle(color: mainColor),
                 )),
             const SizedBox(
               width: 50,
             ),
             FlatButton(
-              color: Colors.blue,
+              color: mainColor,
               onPressed: () {
                 if (_flipController.isCompleted) {
                   _flipController.reverse();

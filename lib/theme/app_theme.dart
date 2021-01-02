@@ -1,7 +1,11 @@
+import 'package:code_cards/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
   static final ThemeData defaultTheme = ThemeData(
+      accentColor: mainColor,
+      buttonTheme:
+          ButtonThemeData(buttonColor: mainColor, focusColor: mainColor),
       appBarTheme: AppBarTheme(
           color: Colors.grey[50],
           textTheme: TextTheme(),
