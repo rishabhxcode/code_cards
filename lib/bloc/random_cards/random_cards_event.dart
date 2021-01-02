@@ -7,6 +7,11 @@ abstract class RandomCardsEvent extends Equatable {
 }
 
 class RandomCardsLoadEvent extends RandomCardsEvent {
+  final List<String> filters;
+
+  RandomCardsLoadEvent({this.filters = const []});
+  @override
+  List<Object> get props => [filters];
 }
 
 class LoadNextRandomCard extends RandomCardsEvent {

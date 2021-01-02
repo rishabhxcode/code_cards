@@ -12,7 +12,7 @@ class GlobalBloc extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => RandomCardsBloc()),
-        BlocProvider(create: (cotext) => FilterTagsBloc())
+        // BlocProvider(create: (cotext) => FilterTagsBloc())
       ],
       child: child,
     );

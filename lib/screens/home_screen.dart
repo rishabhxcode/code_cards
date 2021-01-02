@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: AppDrawer(),
       body: Column(
         children: [
-          Expanded(
+          Flexible(
             child: Container(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,25 +91,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Expanded(
-            flex: 5,
-            child: BlocBuilder<RandomCardsBloc, RandomCardsState>(
-                builder: (context, state) {
-              if (state is RandomCardsLoadingState) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (state is RandomCardsLoadedState) {
-                return FullCard(
+          BlocBuilder<RandomCardsBloc, RandomCardsState>(
+              builder: (context, state) {
+            if (state is RandomCardsLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is RandomCardsLoadedState) {
+              return FullCard(
                   card: state.codeCard,
                 );
-              }
-              if (state is RandomCardsLoadFailedState) {
-                return Center(child: Text("Something Went Wrong!!"));
-              }
-              return Container();
-            }),
-          ),
-          const Spacer()
+            }
+            if (state is RandomCardsLoadFailedState) {
+              return Center(child: Text("Something Went Wrong!!"));
+            }
+            return Container();
+          }),
         ],
       ),
     );

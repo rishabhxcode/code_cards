@@ -75,18 +75,39 @@ class DatabaseHelper {
     return _cards;
   }
 
-  Future<List<CodeCard>> getRandomCards() async {
+  Future<List<CodeCard>> getRandomCards(
+      {List<String> filters = const []}) async {
+    if (filters == null || filters.isEmpty) {
+      return await _getAllRandomCards();
+    }
+
+    return await _getFilteredRandomCards(filters);
+  }
+
+  Future<List<CodeCard>> _getAllRandomCards() async {
     final db = await database;
-    List<CodeCard> _cards = [];
     var result = await db.query(
       tableName,
       orderBy: 'RANDOM()',
-      limit: 8,
+      limit: 10,
     );
-    result.forEach((element) {
-      var _codeCard = CodeCard.fromJson(element);
-      _cards.add(_codeCard);
-    });
-    return _cards;
+    List<CodeCard> cards =
+        result.map((element) => CodeCard.fromJson(element)).toList();
+    return cards;
+  }
+
+  Future<List<CodeCard>> _getFilteredRandomCards(List<String> filters) async {
+    List<String> lowerCaseFilters =
+        filters.map((filter) => filter.toLowerCase()).toList();
+    final db = await database;
+    var result = await db.query(tableName,
+        orderBy: 'RANDOM()',
+        limit: 10,
+        where:
+            'tag In (${lowerCaseFilters.map((e) => "?").toList().join(',')})',
+        whereArgs: lowerCaseFilters);
+    List<CodeCard> cards =
+        result.map((element) => CodeCard.fromJson(element)).toList();
+    return cards;
   }
 }

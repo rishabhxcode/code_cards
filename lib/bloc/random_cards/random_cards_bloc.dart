@@ -13,6 +13,7 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
 
   DatabaseHelper helper = DatabaseHelper();
   List<CodeCard> cards = [];
+  List<String> currentFilters = [];
   int index = 0;
   @override
   Stream<RandomCardsState> mapEventToState(
@@ -20,6 +21,8 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
   ) async* {
     if (event is RandomCardsLoadEvent) {
       try {
+        cards.clear();
+        currentFilters = event.filters;
         yield RandomCardsLoadingState();
         var card = await _loadRandomCard();
         yield RandomCardsLoadedState(codeCard: card);
@@ -29,6 +32,10 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
       }
     }
     if (event is LoadNextRandomCard) {
+      cards.forEach((element) {
+        print("Code Carda---------> $element");
+      });
+      print("\n");
       cards.removeAt(index);
       if (cards.length <= 4) {
         var card = await _loadRandomCard();
@@ -39,7 +46,7 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
   }
 
   Future<CodeCard> _loadRandomCard() async {
-    var newCards = await helper.getRandomCards();
+    var newCards = await helper.getRandomCards(filters: currentFilters);
     cards.addAll(newCards);
     return cards[index];
   }
