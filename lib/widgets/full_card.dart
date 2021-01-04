@@ -26,7 +26,7 @@ class _FullCardState extends State<FullCard>
           ..addListener(() {
             setState(() {});
           });
-
+//TODO: updating star for first time also, which is needed to be avoided
     BlocProvider.of<FavoriteBloc>(context)
         .add(UpdateFavEvent(fav: widget.card.star));
 

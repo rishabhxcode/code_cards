@@ -120,6 +120,7 @@ class DatabaseHelper {
     final db = await database;
     await db.update(tableName, {'star': isFav ? 1 : 0},
         where: 'id = ?', whereArgs: [id]);
+    print('SUCCESS');
     return isFav;
   }
 }
