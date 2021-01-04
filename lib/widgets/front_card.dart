@@ -1,4 +1,5 @@
 import 'package:code_cards/model/code_card.dart';
+import 'package:code_cards/widgets/favorite_widget.dart';
 import 'package:flutter/material.dart';
 
 class FrontCard extends StatelessWidget {
@@ -38,10 +39,8 @@ class FrontCard extends StatelessWidget {
                             fontStyle: FontStyle.italic)),
                   ),
                   const Spacer(),
-                  Icon(
-                    Icons.star_border_rounded,
-                    size: 30,
-                    color: Colors.grey[500],
+                  FavoriteWidget(
+                    id: card.id,
                   )
                 ],
               ),

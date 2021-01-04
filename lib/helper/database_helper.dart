@@ -110,4 +110,16 @@ class DatabaseHelper {
         result.map((element) => CodeCard.fromJson(element)).toList();
     return cards;
   }
+
+  Future<void> updateCard(Map<String, dynamic> values, int id) async {
+    final db = await database;
+    await db.update(tableName, values, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<bool> updateFav(bool isFav, int id) async {
+    final db = await database;
+    await db.update(tableName, {'star': isFav ? 1 : 0},
+        where: 'id = ?', whereArgs: [id]);
+    return isFav;
+  }
 }

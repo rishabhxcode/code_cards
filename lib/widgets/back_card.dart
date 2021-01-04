@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:code_cards/model/code_card.dart';
 import 'package:flutter/material.dart';
 
+import 'favorite_widget.dart';
+
 class BackCard extends StatelessWidget {
   final CodeCard card;
   const BackCard({Key key, this.card}) : super(key: key);
@@ -38,10 +40,8 @@ class BackCard extends StatelessWidget {
                             fontStyle: FontStyle.italic)),
                   ),
                   const Spacer(),
-                  Icon(
-                    Icons.star_border_rounded,
-                    size: 30,
-                    color: Colors.grey[500],
+                  FavoriteWidget(
+                    id: card.id,
                   )
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:code_cards/bloc/favorite/favorite_bloc.dart';
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/model/code_card.dart';
@@ -25,6 +26,10 @@ class _FullCardState extends State<FullCard>
           ..addListener(() {
             setState(() {});
           });
+
+    BlocProvider.of<FavoriteBloc>(context)
+        .add(UpdateFavEvent(fav: widget.card.star));
+
     super.initState();
   }
 
