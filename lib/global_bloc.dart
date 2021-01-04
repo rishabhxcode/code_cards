@@ -1,7 +1,8 @@
-import 'package:code_cards/bloc/filter_tags/filter_tags_bloc.dart';
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/favorite/favorite_bloc.dart';
 
 class GlobalBloc extends StatelessWidget {
   final Widget child;
@@ -12,7 +13,9 @@ class GlobalBloc extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => RandomCardsBloc()),
-        // BlocProvider(create: (cotext) => FilterTagsBloc())
+        BlocProvider(
+          create: (context) => FavoriteBloc(),
+        )
       ],
       child: child,
     );
