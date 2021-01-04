@@ -2,23 +2,23 @@ import 'package:code_cards/bloc/favorite/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FavoriteWidget extends StatelessWidget {
-  final int id;
+// class FavoriteWidget extends StatelessWidget {
+//   final int id;
 
-  const FavoriteWidget({
-    Key key,
-    this.id,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => FavoriteBloc(),
-      child: FavoriteButton(
-        id: id,
-      ),
-    );
-  }
-}
+//   const FavoriteWidget({
+//     Key key,
+//     this.id,
+//   }) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (_) => FavoriteBloc(),
+//       child: FavoriteButton(
+//         id: id,
+//       ),
+//     );
+//   }
+// }
 
 class FavoriteButton extends StatefulWidget {
   final int id;

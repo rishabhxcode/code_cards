@@ -40,7 +40,7 @@ class BackCard extends StatelessWidget {
                             fontStyle: FontStyle.italic)),
                   ),
                   const Spacer(),
-                  FavoriteWidget(
+                  FavoriteButton(
                     id: card.id,
                   )
                 ],
