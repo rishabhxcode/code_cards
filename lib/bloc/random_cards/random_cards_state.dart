@@ -6,13 +6,9 @@ abstract class RandomCardsState extends Equatable {
   List<Object> get props => [];
 }
 
-class RandomCardsInitial extends RandomCardsState {
+class RandomCardsInitial extends RandomCardsState {}
 
-}
-
-class RandomCardsLoadingState extends RandomCardsState {
- 
-}
+class RandomCardsLoadingState extends RandomCardsState {}
 
 class RandomCardsLoadedState extends RandomCardsState {
   final CodeCard codeCard;
@@ -22,6 +18,4 @@ class RandomCardsLoadedState extends RandomCardsState {
   List<Object> get props => [codeCard];
 }
 
-class RandomCardsLoadFailedState extends RandomCardsState {
-
-}
+class RandomCardsLoadFailedState extends RandomCardsState {}

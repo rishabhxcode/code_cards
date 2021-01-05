@@ -26,10 +26,8 @@ class _FullCardState extends State<FullCard>
           ..addListener(() {
             setState(() {});
           });
-//TODO: updating star for first time also, which is needed to be avoided
-    BlocProvider.of<FavoriteBloc>(context)
-        .add(UpdateFavEvent(fav: widget.card.star));
 
+    print('S T A R : : ${widget.card.star}');
     super.initState();
   }
 
@@ -69,6 +67,8 @@ class _FullCardState extends State<FullCard>
                   _flipController.reverse();
                 }
                 context.read<RandomCardsBloc>().add(LoadNextRandomCard());
+                // BlocProvider.of<FavoriteBloc>(context)
+                //     .add(UpdateFavEvent(fav: widget.card.star, id: widget.card.id));
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),

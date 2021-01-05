@@ -42,6 +42,7 @@ class BackCard extends StatelessWidget {
                   const Spacer(),
                   FavoriteButton(
                     id: card.id,
+                    fav: card.star,
                   )
                 ],
               ),

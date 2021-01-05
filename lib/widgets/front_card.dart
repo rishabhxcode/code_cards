@@ -41,6 +41,7 @@ class FrontCard extends StatelessWidget {
                   const Spacer(),
                   FavoriteButton(
                     id: card.id,
+                    fav: card.star,
                   )
                 ],
               ),

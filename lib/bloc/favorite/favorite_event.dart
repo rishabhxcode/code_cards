@@ -9,7 +9,7 @@ abstract class FavoriteEvent extends Equatable {
 class UpdateFavEvent extends FavoriteEvent {
   final bool fav;
   final int id;
-
+  
   UpdateFavEvent({this.id, this.fav});
   @override
   List<Object> get props => [fav, id];
