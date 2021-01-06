@@ -1,4 +1,3 @@
-import 'package:code_cards/bloc/favorite/favorite_bloc.dart';
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/model/code_card.dart';
@@ -26,8 +25,6 @@ class _FullCardState extends State<FullCard>
           ..addListener(() {
             setState(() {});
           });
-
-    print('S T A R : : ${widget.card.star}');
     super.initState();
   }
 
@@ -67,8 +64,6 @@ class _FullCardState extends State<FullCard>
                   _flipController.reverse();
                 }
                 context.read<RandomCardsBloc>().add(LoadNextRandomCard());
-                // BlocProvider.of<FavoriteBloc>(context)
-                //     .add(UpdateFavEvent(fav: widget.card.star, id: widget.card.id));
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),

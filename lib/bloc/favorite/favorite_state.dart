@@ -1,8 +1,8 @@
 part of 'favorite_bloc.dart';
 
-class FavoriteUpdatedState extends Equatable {
+class FavoriteUpdateState extends Equatable {
   final bool fav;
-  FavoriteUpdatedState({this.fav});
+  FavoriteUpdateState({@required this.fav});
   @override
   List<Object> get props => [fav];
 }

@@ -37,6 +37,7 @@ class DatabaseHelper {
     return _databaseHelper;
   }
 
+
   // void createDb(Database db, int version) async {
   //   await db.execute('''CREATE TABLE $tableName(
   //         $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,7 +56,7 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     var dbDir = await getDatabasesPath();
     var dbPath = join(dbDir, "code_cards_database.db");
-    await deleteDatabase(dbPath);
+    // await deleteDatabase(dbPath);
     ByteData data = await rootBundle.load("assets/db/code_cards_database.db");
     List<int> bytes =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
@@ -120,7 +121,6 @@ class DatabaseHelper {
     final db = await database;
     await db.update(tableName, {'star': isFav ? 1 : 0},
         where: 'id = ?', whereArgs: [id]);
-    print('SUCCESS');
     return isFav;
   }
 }
