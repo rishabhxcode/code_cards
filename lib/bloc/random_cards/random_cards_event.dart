@@ -16,3 +16,11 @@ class RandomCardsLoadEvent extends RandomCardsEvent {
 
 class LoadNextRandomCard extends RandomCardsEvent {
 }
+
+class RandomCardUpdated extends RandomCardsEvent {
+  final CodeCard card;
+
+  RandomCardUpdated(this.card);
+  @override
+  List<Object> get props => [card];
+}

@@ -1,4 +1,5 @@
 import 'package:code_cards/bloc/favorite/favorite_bloc.dart';
+import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +10,7 @@ class FavoriteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => FavoriteBloc(fav: fav),
+      create: (_) => FavoriteBloc(fav: fav, randomCardBloc: context.read<RandomCardsBloc>(),),
       child: FavoriteButton(
         id: id,
         fav: fav,

@@ -37,7 +37,6 @@ class DatabaseHelper {
     return _databaseHelper;
   }
 
-
   // void createDb(Database db, int version) async {
   //   await db.execute('''CREATE TABLE $tableName(
   //         $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,13 +55,24 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     var dbDir = await getDatabasesPath();
     var dbPath = join(dbDir, "code_cards_database.db");
-    // await deleteDatabase(dbPath);
+    bool dbExists = await databaseExists(dbPath);
+    if (!dbExists) {
+      await _createNewDB(dbPath);
+    }
+    var db = await openDatabase(dbPath, version: 1);
+    return db;
+  }
+
+  Future<void> _createNewDB(String dbPath) async {
+    if (dbPath == null || dbPath.isEmpty) {
+      return;
+    }
+
+    await deleteDatabase(dbPath);
     ByteData data = await rootBundle.load("assets/db/code_cards_database.db");
     List<int> bytes =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(dbPath).writeAsBytes(bytes);
-    var db = await openDatabase(dbPath);
-    return db;
   }
 
   Future<List<CodeCard>> getCards() async {
@@ -117,10 +127,12 @@ class DatabaseHelper {
     await db.update(tableName, values, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<bool> updateFav(bool isFav, int id) async {
+  Future<CodeCard> updateFav(bool isFav, int id) async {
     final db = await database;
     await db.update(tableName, {'star': isFav ? 1 : 0},
         where: 'id = ?', whereArgs: [id]);
-    return isFav;
+    List cards = await db.query(tableName, where: "id = ?", whereArgs: [id]);
+
+    return CodeCard.fromJson(cards[0]);
   }
 }

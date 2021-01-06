@@ -33,12 +33,25 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
     }
     if (event is LoadNextRandomCard) {
       cards.removeAt(index);
+      //? Uncomment below for viewing the list
+      // cards.forEach((element) {
+      //   print("element-> $element \n");
+      // });
+
       if (cards.length <= 4) {
         var card = await _loadRandomCard();
         yield RandomCardsLoadedState(codeCard: card);
       }
       print('${cards[index].id} ${cards[index].star}');
       yield RandomCardsLoadedState(codeCard: cards[index]);
+    }
+    if (event is RandomCardUpdated) {
+      //TODO: Update this code whenever you find optimized approach!
+      for (int i = 0; i < cards.length; i++) {
+        if (cards[i].id == event.card.id) {
+          cards[i] = event.card;
+        }
+      }
     }
   }
 

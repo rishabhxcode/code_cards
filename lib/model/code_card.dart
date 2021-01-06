@@ -59,5 +59,5 @@ class CodeCard extends Equatable {
   List<Object> get props => [id, question, answer];
 
   @override 
-  toString()=> "id: ${this.id}, tag: ${this.tag},";
+  toString()=> "id: ${this.id}, tag: ${this.tag}, star: ${this.star}";
 }
