@@ -1,6 +1,6 @@
 import 'package:code_cards/bloc/filter_tags/filter_tags_bloc.dart';
 import 'package:code_cards/bloc/random_cards/random_cards_bloc.dart';
-import 'package:code_cards/common/app_darwer.dart';
+import 'package:code_cards/common/app_drawer.dart';
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/helper/database_helper.dart';
 import 'package:code_cards/screens/new_card_screen.dart';
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: AppDrawer(),
       body: Column(
         children: [
-          Flexible(
+          Expanded(
             child: Container(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,21 +91,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          BlocBuilder<RandomCardsBloc, RandomCardsState>(
-              builder: (context, state) {
-            if (state is RandomCardsLoadingState) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state is RandomCardsLoadedState) {
-              return FullCard(
+          Expanded(
+            flex: 5,
+            child: BlocBuilder<RandomCardsBloc, RandomCardsState>(
+                builder: (context, state) {
+              if (state is RandomCardsLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (state is RandomCardsLoadedState) {
+                return FullCard(
                   card: state.codeCard,
                 );
-            }
-            if (state is RandomCardsLoadFailedState) {
-              return Center(child: Text("Something Went Wrong!!"));
-            }
-            return Container();
-          }),
+              }
+              if (state is RandomCardsLoadFailedState) {
+                return Center(child: Text("Something Went Wrong!!"));
+              }
+              return Container();
+            }),
+          ),
         ],
       ),
     );

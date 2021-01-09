@@ -6,22 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'database_constants.dart';
+
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
   static Database _database;
   DatabaseHelper._createInstance();
-
-  String tableName = 'code_cards';
-  String id = 'id';
-  String question = 'question';
-  String answer = 'answer';
-  String tag = 'tag';
-  String childTag = 'child_tag';
-  String type = 'type';
-  String star = 'star';
-  String unAnsweredCount = 'un_answered_count';
-  String appearCount = 'appear_count';
-  String isKnown = 'is_known';
 
   Future<Database> get database async {
     if (_database == null) {
@@ -36,21 +26,6 @@ class DatabaseHelper {
     }
     return _databaseHelper;
   }
-
-  // void createDb(Database db, int version) async {
-  //   await db.execute('''CREATE TABLE $tableName(
-  //         $id INTEGER PRIMARY KEY AUTOINCREMENT,
-  //         $question TEXT,
-  //         $answer TEXT,
-  //         $type TEXT,
-  //         $tag TEXT,
-  //         $childTag TEXT,
-  //         $unAnsweredCount INTEGER,
-  //         $appearCount INTEGER,
-  //         $star INTEGER,
-  //         $isKnown INTEGER,
-  //         )''');
-  // }
 
   Future<Database> initializeDatabase() async {
     var dbDir = await getDatabasesPath();
@@ -91,7 +66,6 @@ class DatabaseHelper {
     if (filters == null || filters.isEmpty) {
       return await _getAllRandomCards();
     }
-
     return await _getFilteredRandomCards(filters);
   }
 
@@ -124,15 +98,38 @@ class DatabaseHelper {
 
   Future<void> updateCard(Map<String, dynamic> values, int id) async {
     final db = await database;
-    await db.update(tableName, values, where: 'id = ?', whereArgs: [id]);
+    await db.update(tableName, values, where: '$id = ?', whereArgs: [id]);
   }
 
   Future<CodeCard> updateFav(bool isFav, int id) async {
     final db = await database;
-    await db.update(tableName, {'star': isFav ? 1 : 0},
-        where: 'id = ?', whereArgs: [id]);
-    List cards = await db.query(tableName, where: "id = ?", whereArgs: [id]);
+    await db.update(tableName, {fav: isFav ? 1 : 0},
+        where: '$id = ?', whereArgs: [id]);
+    List cards = await db.query(tableName, where: "$id = ?", whereArgs: [id]);
+    return CodeCard.fromJson(cards[0]);
+  }
 
+  Future<CodeCard> updateKnown(bool isKnown, int id) async {
+    final db = await database;
+    await db.update(tableName, {known: isKnown ? 1 : 0},
+        where: '$id = ?', whereArgs: [id]);
+    List cards = await db.query(tableName, where: "$id = ?", whereArgs: [id]);
+    return CodeCard.fromJson(cards[0]);
+  }
+
+  Future<List<CodeCard>> loadFavorites() async {
+    final db = await database;
+    var result = await db.query(tableName, where: '$fav = 1');
+    List<CodeCard> cards =
+        result.map((element) => CodeCard.fromJson(element)).toList();
+    return cards;
+  }
+
+  Future<CodeCard> updateAppearCount(int count, int id) async {
+    final db = await database;
+    await db.update(tableName, {appearCount: count},
+        where: '$id = ?', whereArgs: [id]);
+    List cards = await db.query(tableName, where: "$id = ?", whereArgs: [id]);
     return CodeCard.fromJson(cards[0]);
   }
 }

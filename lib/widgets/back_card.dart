@@ -14,8 +14,6 @@ class BackCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          height: 400,
-          width: 300,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.grey[100],
@@ -40,9 +38,9 @@ class BackCard extends StatelessWidget {
                             fontStyle: FontStyle.italic)),
                   ),
                   const Spacer(),
-                  FavoriteWidget(
+                  FavoriteButton(
                     id: card.id,
-                    fav: card.star,
+                    fav: card.fav,
                   )
                 ],
               ),

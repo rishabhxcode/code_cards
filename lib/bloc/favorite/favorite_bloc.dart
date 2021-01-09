@@ -24,9 +24,8 @@ class FavoriteBloc extends Bloc<UpdateFavoriteEvent, FavoriteUpdateState> {
   ) async* {
     if (event is UpdateFavoriteEvent) {
       CodeCard updatedCard = await helper.updateFav(event.fav, event.id);
-      print('S U C C E S S $fav');
       randomCardBloc.add(RandomCardUpdated(updatedCard));
-      yield FavoriteUpdateState(fav: updatedCard.star);
+      yield FavoriteUpdateState(fav: updatedCard.fav);
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:code_cards/helper/database_constants.dart' as db;
 import 'package:equatable/equatable.dart';
 
 class CodeCard extends Equatable {
@@ -7,57 +8,58 @@ class CodeCard extends Equatable {
   final String type;
   final String tag;
   final int appearCount;
-  final int unAnsweredCount;
+  final int answeredCount;
   final String childTag;
-  final bool star;
-  final bool isKnown;
+  final bool fav;
+  final bool known;
 
   CodeCard({
     this.id,
     this.tag,
     this.appearCount,
-    this.unAnsweredCount,
+    this.answeredCount,
     this.childTag,
     this.question,
     this.answer,
     this.type,
-    this.isKnown = false,
-    this.star = false,
+    this.known = false,
+    this.fav = false,
   });
 
   static CodeCard fromJson(Map<String, dynamic> json) {
     return CodeCard(
-      answer: json['answer'],
-      appearCount: json['appear_count'],
-      childTag: json['child_tag'],
-      id: json['id'],
-      question: json['question'],
-      tag: json['tag'],
-      type: json['type'],
-      unAnsweredCount: json['un_answered_count'],
-      isKnown: json['is_known'] == 0 ? false : true,
-      star: json['star'] == 0 ? false : true,
+      answer: json[db.answer],
+      appearCount: json[db.appearCount],
+      childTag: json[db.childTag],
+      id: json[db.id],
+      question: json[db.question],
+      tag: json[db.tag],
+      type: json[db.type],
+      answeredCount: json[db.answeredCount],
+      known: json[db.known] == 0 ? false : true,
+      fav: json[db.fav] == 0 ? false : true,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'question': question,
-      'answer': answer,
-      'appear_count': appearCount,
-      'tag': tag,
-      'type': type,
-      'un_answered_count': unAnsweredCount,
-      'child_tag': childTag,
-      'is_known': isKnown == false ? 0 : 1,
-      'star': star == false ? 0 : 1,
+      db.id: id,
+      db.question: question,
+      db.answer: answer,
+      db.appearCount: appearCount,
+      db.tag: tag,
+      db.type: type,
+      db.answeredCount: answeredCount,
+      db.childTag: childTag,
+      db.known: known == false ? 0 : 1,
+      db.fav: fav == false ? 0 : 1,
     };
   }
 
   @override
   List<Object> get props => [id, question, answer];
 
-  @override 
-  toString()=> "id: ${this.id}, tag: ${this.tag}, star: ${this.star}";
+  @override
+  toString() =>
+      "${db.id}: ${this.id}, ${db.tag}: ${this.tag}, ${db.fav}: ${this.fav}";
 }

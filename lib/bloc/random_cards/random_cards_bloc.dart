@@ -42,7 +42,9 @@ class RandomCardsBloc extends Bloc<RandomCardsEvent, RandomCardsState> {
         var card = await _loadRandomCard();
         yield RandomCardsLoadedState(codeCard: card);
       }
-      print('${cards[index].id} ${cards[index].star}');
+      print('${cards[index].id} ${cards[index].fav}');
+      await helper.updateAppearCount(
+          cards[index].appearCount + 1, cards[index].id);
       yield RandomCardsLoadedState(codeCard: cards[index]);
     }
     if (event is RandomCardUpdated) {
