@@ -76,6 +76,8 @@ class DatabaseHelper {
       orderBy: 'RANDOM()',
       limit: 10,
     );
+    final tables = await db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
+    print("-----------------$tables-------------------------");
     List<CodeCard> cards =
         result.map((element) => CodeCard.fromJson(element)).toList();
     return cards;
@@ -142,16 +144,7 @@ class DatabaseHelper {
   createTable() async {
     final db = await database;
     await db.execute(
-        '''CREATE TABLE $myCards(${dbc.id} INTEGER PRIMARY KEY AUTOINCREMENT, 
-        ${dbc.question} TEXT, 
-        ${dbc.answer} TEXT, 
-        ${dbc.type} TEXT,
-        ${dbc.tag} TEXT,
-        ${dbc.childTag} TEXT,
-        ${dbc.answeredCount} INTEGER,
-        ${dbc.appearCount} INTEGER,
-        ${dbc.fav} INTEGER,
-        ${dbc.known} INTEGER,
-        )''');
+        "CREATE TABLE $myCards(${dbc.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${dbc.question} TEXT, ${dbc.answer} TEXT, ${dbc.type} TEXT,${dbc.tag} TEXT,${dbc.childTag} TEXT,${dbc.answeredCount} INTEGER,${dbc.appearCount} INTEGER,${dbc.fav} INTEGER,${dbc.known} INTEGER)");
   }
+
 }
