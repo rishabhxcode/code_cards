@@ -1,3 +1,6 @@
+import 'package:code_cards/constants/app_constants.dart';
+import 'package:code_cards/constants/theme_constants.dart';
+import 'package:code_cards/helper/database_constants.dart' as db;
 import 'package:code_cards/widgets/flip_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +11,49 @@ class NewCardScreen extends StatefulWidget {
 
 class _NewCardScreenState extends State<NewCardScreen>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   AnimationController _flipController;
+  TextEditingController questionController = TextEditingController();
+  TextEditingController answerController = TextEditingController();
+
+  final queSnack = SnackBar(
+    content: Row(
+      children: [
+        Icon(
+          Icons.error_outline_rounded,
+          color: Colors.red,
+          size: 20,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text('Question Can\'t be empty!'),
+      ],
+    ),
+  );
+  final ansSnack = SnackBar(
+    content: Row(
+      children: [
+        Icon(
+          Icons.error_outline_rounded,
+          color: Colors.red,
+          size: 20,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text('Answer Can\'t be empty!'),
+      ],
+    ),
+  );
+
+  Map<String, dynamic> newCard = {
+    db.question: '',
+    db.answer: '',
+    db.tag: '',
+    db.type: 'general',
+  };
+
   @override
   void initState() {
     _flipController =
@@ -22,13 +67,36 @@ class _NewCardScreenState extends State<NewCardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         title: Text('New Question', style: TextStyle(color: Colors.black)),
         actions: [
           FlatButton(
-            onPressed: () {},
-            child: Text('Save'),
+            disabledTextColor: Colors.grey[500],
+            textColor: mainColor,
+            onPressed: () {
+              newCard['${db.question}'] = questionController.text;
+              newCard['${db.answer}'] = answerController.text;
+              if (newCard['${db.question}'] == '') {
+                _scaffoldKey.currentState.showSnackBar(queSnack);
+              } else if (newCard['${db.answer}'] == '') {
+                _scaffoldKey.currentState.showSnackBar(ansSnack);
+              } else {
+                print(newCard);
+              }
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.save,
+                ),
+                const SizedBox(
+                  width: 2,
+                ),
+                Text('SAVE'),
+              ],
+            ),
           )
         ],
       ),
@@ -36,6 +104,22 @@ class _NewCardScreenState extends State<NewCardScreen>
         child: FlipWidget(
             flipController: _flipController,
             front: FrontQuestion(
+              onTagSelect: (val) {
+                setState(() {
+                  newCard['${db.tag}'] = val;
+                });
+              },
+              onTypeSelect: (val) {
+                setState(() {
+                  newCard['${db.type}'] = val ?? db.general;
+                  print('${newCard[db.type]}');
+                });
+              },
+              tag: newCard['${db.tag}'] ?? 'none',
+              type: newCard['${db.type}'] == ''
+                  ? db.general
+                  : newCard['${db.type}'],
+              questionController: questionController,
               onSwapPressed: () {
                 _flipController.isDismissed
                     ? _flipController.forward()
@@ -43,6 +127,7 @@ class _NewCardScreenState extends State<NewCardScreen>
               },
             ),
             back: BackAnswer(
+              answerController: answerController,
               onSwapPressed: () {
                 _flipController.isDismissed
                     ? _flipController.forward()
@@ -54,13 +139,23 @@ class _NewCardScreenState extends State<NewCardScreen>
   }
 }
 
-// ignore: must_be_immutable
 class FrontQuestion extends StatelessWidget {
   final _border = OutlineInputBorder(borderSide: BorderSide.none);
-  TextEditingController questionController = TextEditingController();
+  final TextEditingController questionController;
   final Function onSwapPressed;
-  FrontQuestion({Key key, this.onSwapPressed}) : super(key: key);
-
+  final Function(String) onTagSelect;
+  final String tag;
+  final String type;
+  final Function(String) onTypeSelect;
+  FrontQuestion(
+      {Key key,
+      this.onSwapPressed,
+      this.questionController,
+      this.onTagSelect,
+      this.tag,
+      this.type,
+      this.onTypeSelect})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -76,7 +171,48 @@ class FrontQuestion extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            QTypeWidget(),
+            Row(
+              children: [
+                QTypeWidget(
+                  type: type,
+                  typeSelect: onTypeSelect,
+                ),
+                const Spacer(),
+                tag == null || tag == 'none' || tag == ''
+                    ? Container()
+                    : Container(
+                        margin: EdgeInsets.only(right: 4),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                        child: Text(
+                          tag,
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: mainColor,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        decoration: BoxDecoration(
+                            color: mainColor15,
+                            borderRadius: BorderRadius.circular(50)),
+                      ),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return TagChoices(
+                            onSelected: onTagSelect,
+                            tag: tag,
+                          );
+                        });
+                  },
+                  child: Icon(
+                    Icons.sort_rounded,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
             const Spacer(),
             TextField(
               controller: questionController,
@@ -119,12 +255,12 @@ class FrontQuestion extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class BackAnswer extends StatelessWidget {
   final Function onSwapPressed;
-  TextEditingController answerController = TextEditingController();
+  final TextEditingController answerController;
   final _border = OutlineInputBorder(borderSide: BorderSide.none);
-  BackAnswer({Key key, this.onSwapPressed}) : super(key: key);
+  BackAnswer({Key key, this.onSwapPressed, this.answerController})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -182,58 +318,189 @@ class BackAnswer extends StatelessWidget {
 }
 
 class QTypeWidget extends StatefulWidget {
+  final String type;
+  final Function(String) typeSelect;
+  const QTypeWidget({Key key, this.type, this.typeSelect}) : super(key: key);
   @override
   _QTypeWidgetState createState() => _QTypeWidgetState();
 }
 
 class _QTypeWidgetState extends State<QTypeWidget> {
-  String _value = 'general';
+  String _value;
+  @override
+  void initState() {
+    _value = widget.type ?? '${db.general}';
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
         ChoiceChip(
-          selectedColor: Colors.purple[300],
+          selectedColor: mainColor60,
           labelStyle: TextStyle(
               fontStyle: FontStyle.italic,
               fontSize: 11,
-              color: _value == 'general' ? Colors.white : Colors.grey[500]),
+              color:
+                  _value == '${db.general}' ? Colors.white : Colors.grey[500]),
           backgroundColor: Colors.grey[300],
           labelPadding: EdgeInsets.fromLTRB(4, -6, 4, -6),
           padding: EdgeInsets.fromLTRB(4, -6, 4, -6),
           onSelected: (selected) {
             setState(() {
-              _value = selected ? 'general' : null;
+              _value = selected ? '${db.general}' : null;
             });
+            widget.typeSelect(_value);
           },
-          selected: _value == 'general',
+          selected: _value == '${db.general}',
           label: Text(
-            'general',
+            '${db.general}',
           ),
         ),
         const SizedBox(
           width: 6,
         ),
         ChoiceChip(
-          selectedColor: Colors.purple[300],
+          selectedColor: mainColor60,
           backgroundColor: Colors.grey[300],
           labelStyle: TextStyle(
               fontStyle: FontStyle.italic,
               fontSize: 11,
-              color: _value == 'code' ? Colors.white : Colors.grey[500]),
+              color: _value == '${db.code}' ? Colors.white : Colors.grey[500]),
           labelPadding: EdgeInsets.fromLTRB(5, -6, 5, -6),
           padding: EdgeInsets.fromLTRB(5, -6, 5, -6),
-          selected: _value == 'code',
+          selected: _value == '${db.code}',
           label: Text(
-            'code',
+            '${db.code}',
           ),
           onSelected: (selected) {
             setState(() {
-              _value = selected ? 'code' : null;
+              _value = selected ? '${db.code}' : null;
             });
+            widget.typeSelect(_value);
           },
         )
       ],
     );
+  }
+}
+
+class TagChoices extends StatefulWidget {
+  final Function(String) onSelected;
+  final String tag;
+  const TagChoices({Key key, this.onSelected, this.tag}) : super(key: key);
+  @override
+  _TagChoicesState createState() => _TagChoicesState();
+}
+
+class _TagChoicesState extends State<TagChoices> {
+  String _tag;
+
+  @override
+  void initState() {
+    _tag = widget.tag ?? '';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        backgroundColor: Colors.transparent,
+        child: FractionallySizedBox(
+          heightFactor: 0.5,
+          widthFactor: 0.9,
+          child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tags',
+                    style: TextStyle(
+                        color: mainColor,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 16),
+                  ),
+                  Divider(),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 6,
+                    children: List.generate(
+                        filterTags.length,
+                        (index) => ChoiceChip(
+                              selectedColor: mainColor15,
+                              backgroundColor: Colors.grey[200],
+                              labelPadding: EdgeInsets.all(0),
+                              avatar: _tag == filterTags[index]
+                                  ? Icon(
+                                      Icons.check_rounded,
+                                      color: mainColor,
+                                      size: 18,
+                                    )
+                                  : null,
+                              labelStyle: TextStyle(
+                                  color: _tag == filterTags[index]
+                                      ? mainColor
+                                      : Colors.grey[600]),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              label: Text(filterTags[index]),
+                              selected: _tag == filterTags[index],
+                              onSelected: (val) {
+                                setState(() {
+                                  val
+                                      ? _tag = filterTags[index]
+                                      : _tag = 'none';
+                                });
+                              },
+                            )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ChoiceChip(
+                      label: Text('None'),
+                      selectedColor: mainColor15,
+                      backgroundColor: Colors.grey[200],
+                      labelPadding: EdgeInsets.all(0),
+                      selected: _tag == 'none',
+                      avatar: _tag == 'none'
+                          ? Icon(
+                              Icons.check_rounded,
+                              color: mainColor,
+                              size: 18,
+                            )
+                          : null,
+                      labelStyle: TextStyle(
+                          color: _tag == 'none' ? mainColor : Colors.grey[600]),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      onSelected: (val) {
+                        setState(() {
+                          val ? _tag = 'none' : _tag = 'none';
+                        });
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        widget.onSelected(_tag);
+                        print('TAG :: $_tag');
+                        Navigator.of(context).pop();
+                      },
+                      color: mainColor,
+                      icon: Icon(Icons.check_rounded),
+                      iconSize: 40,
+                    ),
+                  )
+                ],
+              )),
+        ));
   }
 }

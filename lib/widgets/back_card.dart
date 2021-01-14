@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/model/code_card.dart';
 import 'package:flutter/material.dart';
 
@@ -23,19 +24,10 @@ class BackCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: Colors.cyan[50],
-                        border:
-                            Border.all(width: 0.5, color: Colors.grey[400])),
-                    child: Text('code',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[700],
-                            fontStyle: FontStyle.italic)),
+                  Text(
+                    ' Answer',
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, color: mainColor50),
                   ),
                   const Spacer(),
                   FavoriteButton(

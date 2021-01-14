@@ -39,6 +39,13 @@ class AppDrawer extends StatelessWidget {
               onTap: () {}),
           ListTile(
               leading: Icon(
+                Icons.show_chart_outlined,
+                color: Colors.green,
+              ),
+              title: Text('Statistics'),
+              onTap: () {}),
+          ListTile(
+              leading: Icon(
                 Icons.share_rounded,
                 color: Colors.blue,
               ),
