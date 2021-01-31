@@ -61,7 +61,7 @@ class _MultiChoiceChipWidgetState extends State<MultiChoiceChipWidget> {
                           : null,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       selected: selectedTags.contains(e.key),
-                      label: Text(e.key),
+                      label: Text(e.value),
                       onSelected: (choice) {
                         setState(() {
                           selectedTags.contains(e.key)

@@ -1,5 +1,6 @@
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:code_cards/constants/app_constants.dart' as appCons;
 
 class CurrentSelectedFiltersWidget extends StatelessWidget {
   final List<String> filteredTags;
@@ -36,7 +37,7 @@ class CurrentSelectedFiltersWidget extends StatelessWidget {
                                 MaterialTapTargetSize.shrinkWrap,
                             backgroundColor: mainColor15,
                             label: Text(
-                              filteredTags[index],
+                              appCons.filterTags[filteredTags[index]],
                               style:
                                   TextStyle(fontSize: 12, color: mainColor80),
                             ),

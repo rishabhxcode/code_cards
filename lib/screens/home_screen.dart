@@ -116,59 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      // body: Column(
-      //   children: [
-      //     Expanded(
-      //       child: Container(
-      //         child: Row(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           children: [
-      //             Expanded(child: BlocBuilder<FilterTagsBloc, FilterTagsState>(
-      //                 builder: (context, state) {
-      //               if (state is FilterTagsChangedState) {
-      //                 return CurrentSelectedFiltersWidget(
-      //                     filteredTags: state.filteredTags);
-      //               } else {
-      //                 return CurrentSelectedFiltersWidget(
-      //                   filteredTags: [],
-      //                 );
-      //               }
-      //             })),
-      //             IconButton(
-      //               icon: Icon(Icons.sort_rounded),
-      //               onPressed: () {
-      //                 showDialog(
-      //                     context: context,
-      //                     builder: (context) {
-      //                       // TODO: Check and Clean FilterTagsBloc
-      //                       return FilterDialogBox();
-      //                     }).whenComplete(() => setState(() {}));
-      //               },
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //     Expanded(
-      //       flex: 5,
-      //       child: BlocBuilder<RandomCardsBloc, RandomCardsState>(
-      //           builder: (context, state) {
-      //         if (state is RandomCardsLoadingState) {
-      //           return Center(child: CircularProgressIndicator());
-      //         }
-      //         if (state is RandomCardsLoadedState) {
-      //           return FullCard(
-      //             card: state.codeCard,
-      //           );
-      //         }
-      //         if (state is RandomCardsLoadFailedState) {
-      //           return Center(child: Text("Something Went Wrong!!"));
-      //         }
-      //         return Container();
-      //       }),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
