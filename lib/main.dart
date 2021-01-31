@@ -5,7 +5,6 @@ import 'package:code_cards/screens/home_screen.dart';
 import 'package:code_cards/screens/my_cards_list_screen.dart';
 import 'package:code_cards/screens/statistics_screen.dart';
 import 'package:code_cards/theme/app_theme.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/filter_tags/filter_tags_bloc.dart';
