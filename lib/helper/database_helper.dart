@@ -76,8 +76,6 @@ class DatabaseHelper {
       orderBy: 'RANDOM()',
       limit: 10,
     );
-    final tables = await db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
-    print("-----------------$tables-------------------------");
     List<CodeCard> cards =
         result.map((element) => CodeCard.fromJson(element)).toList();
     return cards;
@@ -147,4 +145,52 @@ class DatabaseHelper {
         "CREATE TABLE $myCards(${dbc.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${dbc.question} TEXT, ${dbc.answer} TEXT, ${dbc.type} TEXT,${dbc.tag} TEXT,${dbc.childTag} TEXT,${dbc.answeredCount} INTEGER,${dbc.appearCount} INTEGER,${dbc.fav} INTEGER,${dbc.known} INTEGER)");
   }
 
+  Future<void> addNewCard(CodeCard card) async {
+    final db = await database;
+    await db.insert(
+      myCards,
+      card.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<CodeCard>> getMyCards() async {
+    final db = await database;
+    var result = await db.query(myCards);
+    List<CodeCard> cards =
+        result.map((element) => CodeCard.fromJson(element)).toList();
+    return cards;
+  }
+
+  Future<void> deleteMyCard(int id) async {
+    final db = await database;
+    var result = await db.delete(
+      myCards,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    return result;
+  }
+
+  Future<Map<String, dynamic>> getStatisics() async {
+    final db = await database;
+    Map<String, dynamic> stats = {
+      'total_appeared': 0,
+      'unique_cards': 0,
+      'unknown': 0,
+      'known': 0
+    };
+    var appearedCards =
+        await db.query(dbc.tableName, where: '${dbc.appearCount} > 0');
+    var knownCards = await db.query(dbc.tableName, where: '${dbc.known} = 1');
+    stats['total_appeared'] = appearedCards
+        .map((element) => element[dbc.appearCount].toInt())
+        .toList()
+        .fold(0, (previousValue, element) => previousValue + element);
+    stats['unique_cards'] = appearedCards.length;
+    stats['known'] = knownCards.length;
+    stats['unknown'] = stats['unique_cards'] - stats['known'];
+    print(stats);
+    return stats;
+  }
 }

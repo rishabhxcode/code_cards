@@ -41,39 +41,40 @@ class _MultiChoiceChipWidgetState extends State<MultiChoiceChipWidget> {
           },
         ),
         Wrap(
-            children: List.generate(
-                filterTags.length,
-                (index) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                      child: ChoiceChip(
-                        backgroundColor: Colors.grey[200],
-                        selectedColor: mainColor15,
-                        disabledColor: Colors.grey[100],
-                        labelStyle: TextStyle(
-                            color: selectedTags.contains(filterTags[index])
-                                ? mainColor80
-                                : Colors.grey[600]),
-                        avatar: selectedTags.contains(filterTags[index])
-                            ? Icon(
-                                Icons.check_rounded,
-                                color: mainColor,
-                                size: 20,
-                              )
-                            : null,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        selected: selectedTags.contains(filterTags[index]),
-                        label: Text(filterTags[index]),
-                        onSelected: (choice) {
-                          setState(() {
-                            selectedTags.contains(filterTags[index])
-                                ? selectedTags.remove(filterTags[index])
-                                : selectedTags.add(filterTags[index]);
-                            widget.getTags(selectedTags);
-                            _isAllSelected = false;
-                          });
-                        },
-                      ),
-                    ))),
+          children: filterTags.entries
+              .map((e) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                    child: ChoiceChip(
+                      backgroundColor: Colors.grey[200],
+                      selectedColor: mainColor15,
+                      disabledColor: Colors.grey[100],
+                      labelStyle: TextStyle(
+                          color: selectedTags.contains(e.key)
+                              ? mainColor80
+                              : Colors.grey[600]),
+                      avatar: selectedTags.contains(e.key)
+                          ? Icon(
+                              Icons.check_rounded,
+                              color: mainColor,
+                              size: 20,
+                            )
+                          : null,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      selected: selectedTags.contains(e.key),
+                      label: Text(e.key),
+                      onSelected: (choice) {
+                        setState(() {
+                          selectedTags.contains(e.key)
+                              ? selectedTags.remove(e.key)
+                              : selectedTags.add(e.key);
+                          widget.getTags(selectedTags);
+                          _isAllSelected = false;
+                        });
+                      },
+                    ),
+                  ))
+              .toList(),
+        ),
       ],
     );
   }
@@ -82,7 +83,7 @@ class _MultiChoiceChipWidgetState extends State<MultiChoiceChipWidget> {
 class AllChip extends StatefulWidget {
   final Function(bool) onAllSelected;
   final bool isAllSelected;
-  
+
   const AllChip({Key key, this.onAllSelected, this.isAllSelected})
       : super(key: key);
   @override

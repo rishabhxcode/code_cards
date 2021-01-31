@@ -22,7 +22,7 @@ class FavoriteBloc extends Bloc<UpdateFavoriteEvent, FavoriteUpdateState> {
   Stream<FavoriteUpdateState> mapEventToState(
     UpdateFavoriteEvent event,
   ) async* {
-    if (event is UpdateFavoriteEvent) {
+  if (event is UpdateFavoriteEvent) {
       CodeCard updatedCard = await helper.updateFav(event.fav, event.id);
       randomCardBloc.add(RandomCardUpdated(updatedCard));
       yield FavoriteUpdateState(fav: updatedCard.fav);

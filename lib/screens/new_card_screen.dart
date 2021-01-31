@@ -1,10 +1,32 @@
+import 'package:code_cards/bloc/add_new_card/add_new_card_bloc.dart';
 import 'package:code_cards/constants/app_constants.dart';
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/helper/database_constants.dart' as db;
+import 'package:code_cards/model/code_card.dart';
 import 'package:code_cards/widgets/flip_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class NewCardBlocWidget extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const NewCardBlocWidget({Key key, this.scaffoldKey}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AddNewCardBloc(),
+      child: NewCardScreen(
+        scaffoldKey: scaffoldKey,
+      ),
+    );
+  }
+}
 
 class NewCardScreen extends StatefulWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const NewCardScreen({Key key, this.scaffoldKey}) : super(key: key);
+
   @override
   _NewCardScreenState createState() => _NewCardScreenState();
 }
@@ -47,11 +69,32 @@ class _NewCardScreenState extends State<NewCardScreen>
     ),
   );
 
+  final newCardSavedSnack = SnackBar(
+    content: Row(
+      children: [
+        Icon(
+          Icons.check,
+          color: Colors.green,
+          size: 20,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text('New Card Saved!'),
+      ],
+    ),
+  );
+
   Map<String, dynamic> newCard = {
     db.question: '',
     db.answer: '',
-    db.tag: '',
+    db.tag: null,
     db.type: 'general',
+    db.answeredCount: 0,
+    db.appearCount: 0,
+    db.fav: 0,
+    db.known: 0,
+    db.childTag: null
   };
 
   @override
@@ -72,32 +115,41 @@ class _NewCardScreenState extends State<NewCardScreen>
         elevation: 0,
         title: Text('New Question', style: TextStyle(color: Colors.black)),
         actions: [
-          FlatButton(
-            disabledTextColor: Colors.grey[500],
-            textColor: mainColor,
-            onPressed: () {
-              newCard['${db.question}'] = questionController.text;
-              newCard['${db.answer}'] = answerController.text;
-              if (newCard['${db.question}'] == '') {
-                _scaffoldKey.currentState.showSnackBar(queSnack);
-              } else if (newCard['${db.answer}'] == '') {
-                _scaffoldKey.currentState.showSnackBar(ansSnack);
-              } else {
-                print(newCard);
+          BlocListener<AddNewCardBloc, AddNewCardState>(
+            listener: (context, state) {
+              if (state is NewCardAddedState) {
+                Navigator.of(context).pop();
+                widget.scaffoldKey.currentState.showSnackBar(newCardSavedSnack);
               }
             },
-            child: Row(
-              children: [
-                Icon(
-                  Icons.save,
-                ),
-                const SizedBox(
-                  width: 2,
-                ),
-                Text('SAVE'),
-              ],
+            child: FlatButton(
+              disabledTextColor: Colors.grey[500],
+              textColor: mainColor,
+              onPressed: () {
+                newCard['${db.question}'] = questionController.text;
+                newCard['${db.answer}'] = answerController.text;
+                if (newCard['${db.question}'] == '') {
+                  _scaffoldKey.currentState.showSnackBar(queSnack);
+                } else if (newCard['${db.answer}'] == '') {
+                  _scaffoldKey.currentState.showSnackBar(ansSnack);
+                } else {
+                  BlocProvider.of<AddNewCardBloc>(context)
+                      .add(AddNewCardEvent(card: CodeCard.fromJson(newCard)));
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.save,
+                  ),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Text('SAVE'),
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
       body: Center(

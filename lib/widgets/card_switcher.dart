@@ -40,18 +40,13 @@ class CardSwitcher extends StatelessWidget {
           return ClipRect(
             child: SlideTransition(
               position: outAnimation,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: child,
-              ),
+              child: child,
             ),
           );
         }
       },
-      child: Container(
-          width: double.infinity,
+      child: Padding(
           padding: EdgeInsets.only(bottom: 48, top: 2),
-          alignment: Alignment.center,
           key: ValueKey<int>(card.id),
           child: MultiBlocProvider(
             providers: [

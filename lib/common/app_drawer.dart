@@ -1,5 +1,7 @@
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/screens/favorite_cards_list_screen.dart';
+import 'package:code_cards/screens/my_cards_list_screen.dart';
+import 'package:code_cards/screens/statistics_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -9,16 +11,16 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         children: [
           Container(
-              height: 100,
+              height: 60,
               padding: EdgeInsets.all(16),
               alignment: Alignment.center,
               child: Text(
                 'Code Cards',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               decoration: BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(width: 0.5, color: Colors.grey)))),
+                      bottom: BorderSide(width: 0.25, color: Colors.grey)))),
           ListTile(
             leading: Icon(
               Icons.star_rounded,
@@ -35,15 +37,21 @@ class AppDrawer extends StatelessWidget {
                 Icons.web_asset_rounded,
                 color: Colors.deepOrange,
               ),
-              title: Text('My Questions'),
-              onTap: () {}),
+              title: Text('My Cards'),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.pushNamed(context, MyCardsListScreen.routeName);
+              }),
           ListTile(
               leading: Icon(
                 Icons.show_chart_outlined,
                 color: Colors.green,
               ),
               title: Text('Statistics'),
-              onTap: () {}),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.pushNamed(context, StatisticsScreen.routeName);
+              }),
           ListTile(
               leading: Icon(
                 Icons.share_rounded,

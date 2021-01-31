@@ -1,6 +1,5 @@
-import 'package:code_cards/constants/theme_constants.dart';
+import 'package:code_cards/common/card_list_item.dart';
 import 'package:code_cards/helper/database_helper.dart';
-import 'package:code_cards/model/code_card.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteCardsListScreen extends StatelessWidget {
@@ -45,71 +44,5 @@ class FavoriteCardsListScreen extends StatelessWidget {
                 );
               }
             }));
-  }
-}
-
-class CardListItem extends StatelessWidget {
-  final CodeCard card;
-
-  const CardListItem({Key key, this.card}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Chip(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  labelPadding:
-                      EdgeInsets.symmetric(horizontal: 4, vertical: -6),
-                  backgroundColor: mainColor75,
-                  label: Text(
-                    card.type,
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.white),
-                  ),
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Chip(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  labelPadding:
-                      EdgeInsets.symmetric(horizontal: 4, vertical: -6),
-                  backgroundColor: mainColor15,
-                  label: Text(
-                    card.tag,
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontStyle: FontStyle.italic,
-                        color: mainColor),
-                  ),
-                ),
-                const Spacer(),
-                Icon(Icons.star_rounded,
-                    color: card.fav ? Colors.yellow[800] : Colors.grey),
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              card.question,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            Divider(),
-            Text(card.answer)
-          ],
-        ),
-      ),
-    );
   }
 }

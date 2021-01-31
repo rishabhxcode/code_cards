@@ -1,14 +1,16 @@
-const List<String> filterTags = [
-  'Array',
-  'Sorting',
-  'Search',
-  'Dynamic Programming',
-  'Recursion',
-  'Graphs',
-  'Heaps',
-  'Linked Lists',
-  'Trees',
-  'Arithmatic',
-  'Theory',
-  'Math'
-];
+const Map<String, String> filterTags = {
+  'Algorthim': 'algorithm',
+  'Database': 'db',
+  'Dynamic Programming': 'dp',
+  'Data Structure': 'ds',
+  'Graph': 'graph',
+  'Networking': 'networking',
+  'OS': 'os',
+  'Other': 'other',
+  'Recursion': 'recursion',
+  'Search': 'search',
+  'Sort': 'sort',
+  'Testing': 'testing',
+  'Theory': 'theory',
+  'Math': 'math'
+};

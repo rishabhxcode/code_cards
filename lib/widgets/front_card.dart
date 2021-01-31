@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:code_cards/bloc/known/known_bloc.dart';
 import 'package:code_cards/constants/theme_constants.dart';
 import 'package:code_cards/model/code_card.dart';
@@ -11,7 +12,7 @@ class FrontCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Material(
       elevation: 14,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
@@ -72,9 +73,13 @@ class FrontCard extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Text(
+              AutoSizeText(
                 card.question,
-                style: TextStyle(fontSize: 24),
+                maxLines: 10,
+                  minFontSize: 16,
+                  maxFontSize: 24,
+                  style: TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
               ),
               const Spacer(),
               DoYouKnowThisWidget(

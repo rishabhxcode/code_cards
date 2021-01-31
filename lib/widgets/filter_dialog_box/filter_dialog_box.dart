@@ -87,8 +87,6 @@ class _FilterDialogBoxState extends State<FilterDialogBox>
                       selectedtags: state.filteredTags,
                       getTags: (tags) {
                         selectedTags = tags;
-                        print(" T A G S ");
-                        print(selectedTags);
                       },
                     );
                   } else {
@@ -96,8 +94,6 @@ class _FilterDialogBoxState extends State<FilterDialogBox>
                       selectedtags: null,
                       getTags: (tags) {
                         selectedTags = tags;
-                        print(" T A G S ");
-                        print(selectedTags);
                       },
                     );
                   }

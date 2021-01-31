@@ -44,7 +44,7 @@ class BackCard extends StatelessWidget {
                 child: AutoSizeText(
                   card.answer,
                   maxLines: 10,
-                  minFontSize: 18,
+                  minFontSize: 16,
                   maxFontSize: 24,
                   style: TextStyle(fontSize: 24),
                   textAlign: TextAlign.center,

@@ -14,7 +14,6 @@ class FullCard extends StatefulWidget {
 
 class _FullCardState extends State<FullCard>
     with SingleTickerProviderStateMixin {
-
   AnimationController _flipController;
   @override
   void initState() {
