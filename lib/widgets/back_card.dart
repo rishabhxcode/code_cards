@@ -37,22 +37,26 @@ class BackCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
-              const Spacer(),
-              Center(
-                child: AutoSizeText(
-                  card.answer,
-                  maxLines: 10,
-                  minFontSize: 16,
-                  maxFontSize: 24,
-                  style: TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
+              Flexible(
+                child: Center(
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                      child: AutoSizeText(
+                        card.answer,
+                        maxLines: 10,
+                        minFontSize: 16,
+                        maxFontSize: 24,
+                        style: TextStyle(fontSize: 24),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const Spacer(),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
             ],
           )),

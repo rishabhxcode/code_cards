@@ -72,21 +72,33 @@ class FrontCard extends StatelessWidget {
                   )
                 ],
               ),
-              const Spacer(),
-              AutoSizeText(
-                card.question,
-                maxLines: 10,
-                  minFontSize: 16,
-                  maxFontSize: 24,
-                  style: TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
+              const SizedBox(
+                height: 10,
               ),
               const Spacer(),
+              Flexible(flex: 2,
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    child: AutoSizeText(
+                      card.question,
+                      maxLines: 10,
+                      minFontSize: 14,
+                      maxFontSize: 18,
+                      style: TextStyle(fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Spacer(),
               DoYouKnowThisWidget(
                 id: card.id,
               ),
               const SizedBox(
-                height: 24,
+                height: 18,
               )
             ],
           )),
